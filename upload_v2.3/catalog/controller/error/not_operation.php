@@ -1,7 +1,9 @@
-<?php
+<?php   
 class ControllerErrorNotOperation extends Controller {
-	public function index() {
+	public function index() {		
 		$this->load->language('error/not_operation');
+
+		$this->response->addHeader($this->request->server['SERVER_PROTOCOL'] . ' 404 Not Found');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -34,10 +36,12 @@ class ControllerErrorNotOperation extends Controller {
 		}
 
 		$data['heading_title'] = $this->language->get('heading_title');
-
+		
 		$data['text_error'] = $this->language->get('text_error') . "     " . $_GET["error"];
-
+		
 		$data['button_continue'] = $this->language->get('button_continue');
+
+		$this->response->addHeader($this->request->server['SERVER_PROTOCOL'] . ' 404 Not Found');
 
 		$data['continue'] = $this->url->link('common/home');
 
@@ -47,9 +51,16 @@ class ControllerErrorNotOperation extends Controller {
 		$data['content_bottom'] = $this->load->controller('common/content_bottom');
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
-
-		$this->response->addHeader($this->request->server['SERVER_PROTOCOL'] . ' 404 Not operation');
-
-		$this->response->setOutput($this->load->view('error/not_found', $data));
+		
+		if (version_compare(VERSION, '2.2.0', '>=')) {
+			$this->response->setOutput($this->load->view('error/not_found', $data));
+		} else {			
+			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/error/not_found.tpl')) {
+				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/error/not_found.tpl', $data));
+			} else {
+				$this->response->setOutput($this->load->view('default/template/error/not_found.tpl', $data));
+			}
+		}
 	}
 }
+?>

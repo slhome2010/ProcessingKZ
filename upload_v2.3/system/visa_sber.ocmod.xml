@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Processing.kz (Visa Sber Bank)</name>
+  <code>Sber</code>
+  <version>2.1.1(v2.3.x)</version>
+  <author>comtronics@mail.ru</author> 
+
+        <file path="admin/controller/common/column_left.php">                
+                <operation>                
+                    <search><![CDATA[if ($sale) {]]></search>
+                    <add position="before"><![CDATA[
+					if ($this->user->hasPermission('access', 'sale/visa_sber')) {
+						$sale[] = array(
+							'name'	   => 'Visa Sber',
+							'href'     => $this->url->link('sale/visa_sber', 'token=' . $this->session->data['token'], true),
+							'children' => array()		
+						);	
+					}
+					]]></add>
+                </operation>                
+        </file> 
+		
+</modification>

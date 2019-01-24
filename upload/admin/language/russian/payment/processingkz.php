@@ -7,7 +7,7 @@ $_['heading_title'] = '<b style="color: #003F62;"> Processing</b><span style="co
 $_['text_edit'] = 'Настройки модуля';
 $_['text_payment'] = 'Оплата';
 $_['text_success'] = 'Настройки модуля обновлены!';
-$_['text_processingkz'] = '<a target="_BLANK" href="http://processing.kz/"><img src="view/image/payment/halyk-logo.jpg" alt="Сайт платежной системы processing.kz" title="Сайт платежной системы processing.kz" style="border: 1px solid #EEEEEE; height: 40px;" /></a>';
+$_['text_processingkz'] = '<a target="_BLANK" href="http://processing.kz/"><img src="view/image/payment/processingkz-logo.png" alt="Сайт платежной системы processing.kz" title="Сайт платежной системы processing.kz" style="border: 1px solid #EEEEEE; height: 40px;" /></a>';
 
 // Entry
 $_['entry_total'] = 'Нижняя граница';

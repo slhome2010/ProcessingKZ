@@ -30,7 +30,7 @@ class ModelExtensionPaymentProcessingkz extends Model {
   	}
 	
 	public function addVisa($data) {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "visa` SET transaction_status = '" . $this->db->escape($data['transaction_status']) . "',
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "visa_sber` SET transaction_status = '" . $this->db->escape($data['transaction_status']) . "',
 		order_id = '" . (int)$data['order_id'] . "',
 		customer_reference = '" . $this->db->escape($data['customer_reference']) . "',
 		total = '" . (float)$data['total'] . "',
@@ -42,12 +42,12 @@ class ModelExtensionPaymentProcessingkz extends Model {
 	}
 	
 	public function addVisaToOrder($visa_id,$order_id) {
-		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET visa_id = '" . (int)$visa_id . "' WHERE order_id = '" . (int)$order_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET visa_sber_id = '" . (int)$visa_id . "' WHERE order_id = '" . (int)$order_id . "'");
 		
 		return true;
 	}
 	public function editVisa($data) {
-		$this->db->query("UPDATE`" . DB_PREFIX . "visa` SET transaction_status = '" . $this->db->escape($data['transaction_status']) . "',
+		$this->db->query("UPDATE`" . DB_PREFIX . "visa_sber` SET transaction_status = '" . $this->db->escape($data['transaction_status']) . "',
 		customer_reference = '" . $this->db->escape($data['customer_reference']) . "',
 		date_added = NOW() WHERE order_id = '" . (int)$data['order_id'] . "'");
 

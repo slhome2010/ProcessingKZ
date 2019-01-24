@@ -206,14 +206,14 @@ class ControllerExtensionPaymentProcessingkz extends Controller {
 	}
 	
 	public function install() {
-		$this->load->model('sale/visa');
-		$this->model_sale_visa->createDatabaseTables();
+		$this->load->model('sale/visa_sber');
+		$this->model_sale_visa_sber->createDatabaseTables();
 	}
 
 	public function uninstall() {
 
-		$this->load->model('sale/visa');
-		$this->model_sale_visa->dropDatabaseTables();
+		$this->load->model('sale/visa_sber');
+		$this->model_sale_visa_sber->dropDatabaseTables();
 	}
 }
 ?>
