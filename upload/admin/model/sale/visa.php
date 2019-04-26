@@ -1,11 +1,13 @@
 <?php
 require_once(DIR_SYSTEM . 'library/processingkz/CNPMerchantWebServiceClient.php');
 
-class ModelSaleVisa extends Model {
+class ModelSaleVisa extends Model
+{
 
-    public function getOrders($data = array()) {
+    public function getOrders($data = array())
+    {
         $sql = "SELECT o.order_id, CONCAT(o.firstname, ' ', o.lastname) AS customer,
-		(SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int) $this->config->get('config_language_id') . "') AS status,
+		(SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS status,
 		(SELECT vs.customer_reference FROM " . DB_PREFIX . "visa vs WHERE vs.visa_id = o.visa_id) AS customer_reference,
 		(SELECT vs.transaction_status FROM " . DB_PREFIX . "visa vs WHERE vs.visa_id = o.visa_id) AS transaction_status,
 		(SELECT vs.card_country FROM " . DB_PREFIX . "visa vs WHERE vs.visa_id = o.visa_id) AS card_country,
@@ -15,19 +17,19 @@ class ModelSaleVisa extends Model {
 		o.total, o.currency_code, o.currency_value, o.date_added, o.date_modified, o.visa_id FROM `" . DB_PREFIX . "order` o";
 
         if (isset($data['filter_order_status_id']) && !is_null($data['filter_order_status_id'])) {
-            $sql .= " WHERE o.order_status_id = '" . (int) $data['filter_order_status_id'] . "'";
+            $sql .= " WHERE o.order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
         } else {
             $sql .= " WHERE o.order_status_id > '0'";
         }
 
         if (isset($data['filter_visa_id']) && !is_null($data['filter_visa_id'])) {
-            $sql .= " AND o.visa_id = '" . (int) $data['filter_visa_id'] . "'";
+            $sql .= " AND o.visa_id = '" . (int)$data['filter_visa_id'] . "'";
         } else {
             $sql .= " AND o.visa_id > '0'";
         }
 
         if (!empty($data['filter_order_id'])) {
-            $sql .= " AND o.order_id = '" . (int) $data['filter_order_id'] . "'";
+            $sql .= " AND o.order_id = '" . (int)$data['filter_order_id'] . "'";
         }
 
         if (!empty($data['filter_customer'])) {
@@ -43,7 +45,7 @@ class ModelSaleVisa extends Model {
         }
 
         if (!empty($data['filter_total'])) {
-            $sql .= " AND o.total = '" . (float) $data['filter_total'] . "'";
+            $sql .= " AND o.total = '" . (float)$data['filter_total'] . "'";
         }
 
         $sort_data = array(
@@ -78,7 +80,7 @@ class ModelSaleVisa extends Model {
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
         }
 
         $query = $this->db->query($sql);
@@ -86,7 +88,8 @@ class ModelSaleVisa extends Model {
         return $query->rows;
     }
 
-    public function editVisa($data) {
+    public function editVisa($data)
+    {
 
         $client = new CNPMerchantWebServiceClient();
 
@@ -98,12 +101,13 @@ class ModelSaleVisa extends Model {
 
         $this->db->query("UPDATE`" . DB_PREFIX . "visa` SET transaction_status = '" . $this->db->escape($ts) . "',
 		customer_reference = '" . $this->db->escape($data['customer_reference']) . "',
-		date_added = NOW() WHERE order_id = '" . (int) $data['order_id'] . "'");
+		date_added = NOW() WHERE order_id = '" . (int)$data['order_id'] . "'");
 
         return $ts;
     }
 
-    public function confirmVisa($data) {
+    public function confirmVisa($data)
+    {
 
         $client = new CNPMerchantWebServiceClient();
 
@@ -125,12 +129,13 @@ class ModelSaleVisa extends Model {
 
         $this->db->query("UPDATE`" . DB_PREFIX . "visa` SET transaction_status = '" . $this->db->escape($ts) . "',
 		customer_reference = '" . $this->db->escape($data['customer_reference']) . "',
-		date_added = NOW() WHERE order_id = '" . (int) $data['order_id'] . "'");
+		date_added = NOW() WHERE order_id = '" . (int)$data['order_id'] . "'");
 
         return $ts;
     }
 
-    public function cancelVisa($data) {
+    public function cancelVisa($data)
+    {
 
         $client = new CNPMerchantWebServiceClient();
 
@@ -152,19 +157,21 @@ class ModelSaleVisa extends Model {
 
         $this->db->query("UPDATE`" . DB_PREFIX . "visa` SET transaction_status = '" . $this->db->escape($ts) . "',
 		customer_reference = '" . $this->db->escape($data['customer_reference']) . "',
-		date_added = NOW() WHERE order_id = '" . (int) $data['order_id'] . "'");
+		date_added = NOW() WHERE order_id = '" . (int)$data['order_id'] . "'");
 
         return $ts;
     }
 
-    public function addOrderHistory($order_id, $data) {
-        $this->db->query("UPDATE `" . DB_PREFIX . "order` SET order_status_id = '" . (int) $data['order_status_id'] . "', date_modified = NOW() WHERE order_id = '" . (int) $order_id . "'");
+    public function addOrderHistory($order_id, $data)
+    {
+        $this->db->query("UPDATE `" . DB_PREFIX . "order` SET order_status_id = '" . (int)$data['order_status_id'] . "', date_modified = NOW() WHERE order_id = '" . (int)$order_id . "'");
 
-        $this->db->query("INSERT INTO " . DB_PREFIX . "order_history SET order_id = '" . (int) $order_id . "', order_status_id = '" . (int) $data['order_status_id'] . "',
-			notify = '" . (isset($data['notify']) ? (int) $data['notify'] : 0) . "', date_added = NOW()");
+        $this->db->query("INSERT INTO " . DB_PREFIX . "order_history SET order_id = '" . (int)$order_id . "', order_status_id = '" . (int)$data['order_status_id'] . "',
+			notify = '" . (isset($data['notify']) ? (int)$data['notify'] : 0) . "', date_added = NOW()");
     }
 
-    public function getExtended($data) {
+    public function getExtended($data)
+    {
         $exdata = array();
         $client = new CNPMerchantWebServiceClient();
 
@@ -185,12 +192,13 @@ class ModelSaleVisa extends Model {
                     card_number = '" . $exdata['card_number'] . "',
                     verified3d = '" . $exdata['verified3d'] . "',
                     ip_address	= '" . $exdata['ip_address'] . "'
-                    WHERE order_id = '" . (int) $data['order_id'] . "'");
+                    WHERE order_id = '" . (int)$data['order_id'] . "'");
         }
         return $exdata;
     }
 
-    public function createDatabaseTables() {
+    public function createDatabaseTables()
+    {
         $sql = "CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "visa` ( ";
         $sql .= "`visa_id` int(11) NOT NULL AUTO_INCREMENT, ";
         $sql .= "`order_id` int(11) NOT NULL, ";
@@ -206,18 +214,26 @@ class ModelSaleVisa extends Model {
         $sql .= ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=110 AUTO_INCREMENT=1 ;";
         $this->db->query($sql);
 
-        $sql = "ALTER TABLE `" . DB_PREFIX . "order` ADD COLUMN `visa_id` INTEGER(11) NOT NULL;";
-        $this->db->query($sql);
+        if (!$this->alter_check()) {
+            $sql = "ALTER TABLE `" . DB_PREFIX . "order` ADD COLUMN `visa_id` INTEGER(11) NOT NULL;";
+            $this->db->query($sql);
+        }
     }
 
-    public function dropDatabaseTables() {
+    public function dropDatabaseTables()
+    {
         $sql = "DROP TABLE IF EXISTS `" . DB_PREFIX . "visa`;";
         $this->db->query($sql);
 
-        $sql = "ALTER TABLE `" . DB_PREFIX . "order` DROP COLUMN `visa_id`;";
-        $this->db->query($sql);
+        if ($this->alter_check()) {
+            $sql = "ALTER TABLE `" . DB_PREFIX . "order` DROP COLUMN `visa_id`;";
+            $this->db->query($sql);
+        }
     }
 
+    public function alter_check()
+    {
+        $query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='" . DB_DATABASE . "' AND TABLE_NAME='" . DB_PREFIX . "order' AND COLUMN_NAME='visa_id'");
+        return $query->row;
+    }
 }
-
-?>

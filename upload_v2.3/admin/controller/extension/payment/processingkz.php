@@ -211,7 +211,6 @@ class ControllerExtensionPaymentProcessingkz extends Controller {
 	}
 
 	public function uninstall() {
-
 		$this->load->model('sale/visa');
 		$this->model_sale_visa->dropDatabaseTables();
 	}
