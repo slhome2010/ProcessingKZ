@@ -24,20 +24,8 @@ vqmod/mods.cache
 
 # myProjects settings
 *.code-workspace
-*.zip
 *.iep
-*.bat
 wtools-win32-ia32/
 nbproject/
 .vscode/
-5.4/
-5.4-5.6/
-7.0/
-7.1/
-7.2/
 ioncube/
-PHP5.4/
-PHP5.4-5.6/
-PHP7.0/
-PHP7.1/
-PHP7.2/
