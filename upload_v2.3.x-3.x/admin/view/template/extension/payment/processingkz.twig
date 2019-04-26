@@ -1,0 +1,166 @@
+{{header}}{{column_left}}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-processingkz" data-toggle="tooltip" title="{{button_save}}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{cancel}}" data-toggle="tooltip" title="{{button_cancel}}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1><img src="view/image/payment.png" alt="" /> {{heading_title}}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{breadcrumb['href']}}">{{breadcrumb['text']}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div id="error_warning" class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{error_warning}}
+      <button type="button" class="close" data-dismiss="alert">{{ '&times;' | escape }}</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{text_edit}}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{action}}" method="post" enctype="multipart/form-data" id="form-processingkz" class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-total"><span data-toggle="tooltip" title="{{help_total}}">{{entry_total}}</span></label>
+            <div class="col-sm-10">
+              <input type="text" name="processingkz_total" value="{{processingkz_total}}" placeholder="{{entry_total}}" id="input-total" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-shop_id">{{entry_shop_id}}</label>
+            <div class="col-sm-10">
+              <input type="text" name="processingkz_shop_id" value="{{processingkz_shop_id}}" placeholder="{{entry_shop_id}}" id="input-shop_id" class="form-control" />
+              {% if error_shop_id %}
+              <div class="text-danger">{{error_shop_id}}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-check_status">{{entry_check_status}}</label>
+            <div class="col-sm-10">
+              <select name="processingkz_check_status_id" id="input-check_status" class="form-control">
+                {% for check_status in check_statuses %}
+                {% if check_status['order_status_id'] == processingkz_check_status_id %}
+                <option value="{{check_status['order_status_id']}}" selected="selected">{{check_status['name']}}</option>
+                {% else %}
+                <option value="{{check_status['order_status_id']}}">{{check_status['name']}}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-declined_status">{{entry_declined_status}}</label>
+            <div class="col-sm-10">
+              <select name="processingkz_declined_status_id" id="input-declined_status" class="form-control">
+                {% for declined_status in declined_statuses %}
+                {% if declined_status['order_status_id'] == processingkz_declined_status_id %}
+                <option value="{{declined_status['order_status_id']}}" selected="selected">{{declined_status['name']}}</option>
+                {% else %}
+                <option value="{{declined_status['order_status_id']}}">{{declined_status['name']}}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-canceled_status">{{entry_canceled_status}}</label>
+            <div class="col-sm-10">
+              <select name="processingkz_canceled_status_id" id="input-canceled_status" class="form-control">
+                {% for canceled_status in canceled_statuses %}
+                {% if canceled_status['order_status_id'] == processingkz_canceled_status_id %}
+                <option value="{{canceled_status['order_status_id']}}" selected="selected">{{canceled_status['name']}}</option>
+                {% else %}
+                <option value="{{canceled_status['order_status_id']}}">{{canceled_status['name']}}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-order_status">{{entry_order_status}}</label>
+            <div class="col-sm-10">
+              <select name="processingkz_order_status_id" id="input-order_status" class="form-control">
+                {% for order_status in order_statuses %}
+                {% if order_status['order_status_id'] == processingkz_order_status_id %}
+                <option value="{{order_status['order_status_id']}}" selected="selected">{{order_status['name']}}</option>
+                {% else %}
+                <option value="{{order_status['order_status_id']}}">{{order_status['name']}}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-comission_status">{{entry_comission_status}}</label>
+            <div class="col-sm-10">
+              <select name="processingkz_comission_status_id" id="input-comission_status" class="form-control">
+                {% for comission_status in comission_statuses %}
+                {% if comission_status['comission_status_id'] == processingkz_comission_status_id %}
+                <option value="{{comission_status['comission_status_id']}}" selected="selected">{{comission_status['name']}}</option>
+                {% else %}
+                <option value="{{comission_status['comission_status_id']}}">{{comission_status['name']}}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-visa_big_total">{{entry_visa_big_total}}</label>
+            <div class="col-sm-10">
+              <input type="text" name="processingkz_visa_big_total" value="{{processingkz_visa_big_total}}" placeholder="{{entry_visa_big_total}}" id="input-visa_big_total" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-apikey">{{entry_apikey}}</label>
+            <div class="col-sm-10">
+              <input type="text" name="processingkz_apikey" value="{{processingkz_apikey}}" placeholder="{{entry_apikey}}" id="input-apikey" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-geo_zone">{{entry_geo_zone}}</label>
+            <div class="col-sm-10">
+              <select name="processingkz_geo_zone_id" id="input-geo_zone" class="form-control">
+                <option value="0">{{text_all_zones}}</option>
+                {% for geo_zone in geo_zones %}
+                {% if geo_zone['geo_zone_id'] == processingkz_geo_zone_id %}
+                <option value="{{geo_zone['geo_zone_id']}}" selected="selected">{{geo_zone['name']}}</option>
+                {% else %}
+                <option value="{{geo_zone['geo_zone_id']}}">{{geo_zone['name']}}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-status">{{entry_status}}</label>
+            <div class="col-sm-10">
+              <select name="processingkz_status" id="input-status" class="form-control">
+                {% if processingkz_status %}
+                <option value="1" selected="selected">{{text_enabled}}</option>
+                <option value="0">{{text_disabled}}</option>
+                {% else %}
+                <option value="1">{{text_enabled}}</option>
+                <option value="0" selected="selected">{{text_disabled}}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-sort-order">{{entry_sort_order}}</label>
+            <div class="col-sm-10">
+              <input type="text" name="processingkz_sort_order" value="{{processingkz_sort_order}}" placeholder="{{entry_sort_order}}" id="input-sort-order" class="form-control" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{footer}}

@@ -9,3 +9,10 @@ ROBOCOPY .\upload_v2.3.x-3.x\admin\language\en-gb\extension .\upload_v2.0.x-2.2\
 ROBOCOPY .\upload_v2.3.x-3.x\admin\language\ru-ru\extension .\upload_v2.0.x-2.2\admin\language\russian\ * /S
 ROBOCOPY .\upload_v2.3.x-3.x\admin\controller\extension .\upload_v2.0.x-2.2\admin\controller\ * /S
 ROBOCOPY .\upload_v2.3.x-3.x\admin\controller\sale .\upload_v2.0.x-2.2\admin\controller\sale\ * /S
+ROBOCOPY .\upload_v2.3.x-3.x\catalog\controller\extension .\upload_v2.0.x-2.2\catalog\controller\ * /S
+ROBOCOPY .\upload_v2.3.x-3.x\catalog\model\extension .\upload_v2.0.x-2.2\catalog\model\ * /S
+ROBOCOPY .\upload_v2.3.x-3.x\catalog\view\theme\default\template\extension\payment .\upload_v2.0.x-2.2\catalog\view\theme\default\template\payment\ processingkz.tpl /S
+ROBOCOPY .\upload_v2.3.x-3.x\catalog\language .\upload_v2.0.x-2.2\catalog\language\ * /S
+ROBOCOPY .\upload_v2.3.x-3.x\catalog\language\en-gb\extension .\upload_v2.0.x-2.2\catalog\language\english\ * /S
+ROBOCOPY .\upload_v2.3.x-3.x\catalog\language\ru-ru\extension .\upload_v2.0.x-2.2\catalog\language\russian\ * /S
+ROBOCOPY .\upload_v2.3.x-3.x\image .\upload_v2.0.x-2.2\image\ * /S
