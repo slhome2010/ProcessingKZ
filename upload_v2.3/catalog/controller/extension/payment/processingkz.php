@@ -1,25 +1,44 @@
 <?php
 require_once(DIR_SYSTEM . 'library/processingkz/CNPMerchantWebServiceClient.php');
 
-class ControllerExtensionPaymentProcessingkz extends Controller {
+class ControllerPaymentProcessingkz extends Controller {
 
     public function index() {
+
+        $extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";       
+        
+		if (version_compare(VERSION, '2.2.0', '>=')) {
+            $this->load->language($extension . 'payment/processingkz');
+            $ssl = true;
+        } else {
+            $this->load->language('payment/processingkz');
+            $ssl = 'SSL';
+        }		
+
         $data['button_confirm'] = $this->language->get('button_confirm');
         $data['button_back'] = $this->language->get('button_back');
 
-        $data['action'] = HTTPS_SERVER . 'index.php?route=extension/payment/processingkz/processing';
-
-        $this->load->language('extension/payment/processingkz');
-
-
+        $data['action'] = HTTPS_SERVER . 'index.php?route=' . $extension . 'payment/processingkz/processing';
+        
         $data['text_note'] = $this->language->get('text_note');
 
         $id = 'payment';
 		
-		return $this->load->view('extension/payment/processingkz', $data);
+		if (version_compare(VERSION, '2.2.0', '>=')) {			
+			return $this->load->view($extension . 'payment/processingkz', $data);
+		} else {			
+			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/processingkz.tpl')) {
+				return $this->load->view($this->config->get('config_template') . '/template/payment/processingkz.tpl', $data);
+			} else {
+				return $this->load->view('default/template/payment/processingkz.tpl', $data);
+			}
+		}
     }
 
     public function processing() {
+
+        $extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : ""; 
+		$m_extension = version_compare(VERSION, '2.3.0', '>=') ? "extension_" : ""; 
 
         $this->load->model('checkout/order');
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
@@ -84,11 +103,11 @@ class ControllerExtensionPaymentProcessingkz extends Controller {
 
             array_multisort($sort_order, SORT_ASC, $total_data);
 
-
             // добавим комиссию
             $comission = $total;
-            $this->load->model('total/comission');
-            $this->model_extension_total_comission->getTotal($total_data, $total, $taxes);
+            $this->load->model($extension . 'total/comission');
+			$model = 'model_' . $m_extension . 'total_comission';           
+            $this->$model->getTotal($total_data, $total, $taxes);
 
             $goodsItem = new GoodsItem();
             $goodsItem->nameOfGoods = 'Комиссия платежной системы:';
@@ -134,9 +153,10 @@ class ControllerExtensionPaymentProcessingkz extends Controller {
                 'total' => $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], FALSE)
             );
 
-            $this->load->model('extension/payment/processingkz');
-            $vs = $this->model_extension_payment_processingkz->addVisa($set);
-            $this->model_extension_payment_processingkz->addVisaToOrder($vs, $this->session->data['order_id']);
+            $this->load->model($extension . 'payment/processingkz');
+			$model = 'model_' . $m_extension . 'payment_processingkz';
+            $vs = $this->$model->addVisa($set);
+            $vso = $this->$model->addVisaToOrder($vs, $this->session->data['order_id']);			
 
             if ($ts == "PENDING_CUSTOMER_INPUT") {
                 $this->model_checkout_order->addOrderHistory($this->session->data['order_id'], $this->config->get('processingkz_check_status_id'));
@@ -149,6 +169,9 @@ class ControllerExtensionPaymentProcessingkz extends Controller {
     }
 
     public function success() {
+
+        $extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : ""; 
+		$m_extension = version_compare(VERSION, '2.3.0', '>=') ? "extension_" : ""; 
 
         $mrId = $this->config->get('processingkz_shop_id');
         $rrn = $_GET["sessionID"];
@@ -166,8 +189,10 @@ class ControllerExtensionPaymentProcessingkz extends Controller {
             'customer_reference' => $rrn,
             'transaction_status' => $ts,
         );
-        $this->load->model('extension/payment/processingkz');
-        $this->model_extension_payment_processingkz->editVisa($set);
+
+        $this->load->model($extension . 'payment/processingkz');
+		$model = 'model_' . $m_extension . 'payment_processingkz';        
+        $this->$model->editVisa($set);
         $this->load->model('checkout/order');
 
         if ($ts == "AUTHORISED" || $ts == "PAID") {
@@ -182,6 +207,7 @@ class ControllerExtensionPaymentProcessingkz extends Controller {
             $this->response->redirect(HTTP_SERVER . 'index.php?route=error/not_operation&error=' . ($ts == 'DECLINED' ? 'Банк отклонил карту. Свяжитесь с банком.' : $ts));
         }
     }
-
 }
-?>
+
+class ControllerExtensionPaymentProcessingkz extends ControllerPaymentProcessingkz
+{ }
