@@ -1,0 +1,92 @@
+{{header}}{{column_left}}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <a href="{{cancel}}" data-toggle="tooltip" title="{{button_back}}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1><img height="22" src="view/image/payment/visa.png" alt="" /> {{heading_title}}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{breadcrumb['href']}}">{{breadcrumb['text']}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div id="error_warning" class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{error_warning}}
+      <button type="button" class="close" data-dismiss="alert">{{ '&times;' | escape }}</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-info"></i> {{text_verified}}</h3>
+      </div>
+      <div class="panel-body">
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            {% for order in orders %}
+            <tr>
+              <td class="left">{{column_visa}}</td>
+              <td>{{order['visa_id']}}</td>
+            </tr>
+            <tr>
+              <td>{{column_order}}</td>
+              <td>{{order['order_id']}}</td>
+            </tr>
+            <tr>
+              <td>{{column_total}}</td>
+              <td>{{order['total']}}</td>
+              {% if (float)$order['total'] > (float)$order['visa_big_total'] %}
+              <td style="color: red;"> {{text_visa_big_total}} </td>
+              {% endif %}
+            </tr>
+            <tr>
+              <td>{{column_customer}}</td>
+              <td>{{order['customer_reference']}}</td>
+            </tr>
+
+            <tr>
+              <td>{{column_status}}</td>
+              <td>{{order['transaction_status']}}</td>
+            </tr>
+            <tr>
+              <td>{{column_date_added}}</td>
+              <td>{{order['date_added']}}</td>
+            </tr>
+            <tr>
+              <td>{{column_ip}}</td>
+              <td>{{order['ip_address']}}
+                {% if $order['ip_address'] %}
+                [ <a class="text-right" href="http://whatismyipaddress.com/ip/{{order['ip_address']}}" target="_blank">{{text_geoip}}</a> ]
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>{{column_country}}</td>
+              <td>{{order['card_country']}}</td>
+            </tr>
+            <tr>
+              <td>{{column_number}}</td>
+              <td>{{order['card_number']}}</td>
+            </tr>
+            <tr>
+              <td>{{column_verified}}</td>
+              <td>{{order['verified3d']}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+        <div>
+          <p style="color: red; margin-left: 20px; font-size: 16px">Справка: Список стран с высоким уровнем мошенничества! </p>
+          <p style="color: #003A88; margin-left: 20px; font-size: 14px"> Ангола, Египет, Гана, Кот-д’Ивуар, Литва, Таиланд, Малайзия, Сингапур, Испания, Австралия, Индонезия, Бразилия, Нигер,
+            Нигерия, Гонконг, Тайвань, Филиппины, Болгария, Великобритания, Украина, Намибия, Румыния, Аргентина, Чили, Албания,
+            Перу, Узбекистан, Республика Конго, Мозамбик, Танзания </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{footer}}
