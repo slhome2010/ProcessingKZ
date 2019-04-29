@@ -43,6 +43,7 @@ class ControllerPaymentProcessingkz extends Controller {
 		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {			
 			$this->model_setting_setting->editSetting('processingkz', $this->request->post);
+			$this->model_setting_setting->editSetting('payment_processingkz', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			if (version_compare(VERSION, '2.0.1', '>=')) { // иначе вылетает из админки
                 $this->response->redirect($this->url->link($link, $token_name . '=' . $this->token . '&type=payment', $ssl));
@@ -191,6 +192,12 @@ class ControllerPaymentProcessingkz extends Controller {
 		} else {
 			$this->data['processingkz_status'] = $this->config->get('processingkz_status');
 		}
+
+		if (isset($this->request->post['payment_processingkz_status'])) {
+			$this->data['payment_processingkz_status'] = $this->request->post['payment_processingkz_status'];
+		} else {
+			$this->data['payment_processingkz_status'] = $this->config->get('payment_processingkz_status');
+		}
 		
 		if (isset($this->request->post['processingkz_sort_order'])) {
 			$this->data['processingkz_sort_order'] = $this->request->post['processingkz_sort_order'];
@@ -260,6 +267,7 @@ class ControllerPaymentProcessingkz extends Controller {
         $this->data['processingkz_visa_big_total'] = '50000';
 		$this->data['processingkz_geo_zone_id'] = '0';
 		$this->data['processingkz_status'] = '1';
+		$this->data['payment_processingkz_status'] = '1';
 
 		$this->load->model('setting/setting');
 		$this->model_setting_setting->editSetting('processingkz', $this->data);       

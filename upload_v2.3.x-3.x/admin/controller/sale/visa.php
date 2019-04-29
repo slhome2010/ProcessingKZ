@@ -3,6 +3,8 @@ require_once(DIR_SYSTEM . 'library/processingkz/ip2locationlite.class.php');
 
 class ControllerSaleVisa extends Controller {
 
+    private $token;
+
     public function index() {
         
 		$this->load->language('sale/visa');
@@ -25,20 +27,29 @@ class ControllerSaleVisa extends Controller {
         $data['column_lastname'] = $this->language->get('column_lastname');
         $data['column_action'] = $this->language->get('column_action');
         $data['button_refresh'] = $this->language->get('button_refresh');
-		
-		$data['breadcrumbs'] = array();
 
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL')
-		);
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('sale/visa', 'token=' . $this->session->data['token'], 'SSL')
-		);
+        if (isset($this->session->data['user_token'])) {
+            $this->token = $this->session->data['user_token'];
+            $token_name = 'user_token';
+        }
+        if (isset($this->session->data['token'])) {
+            $this->token = $this->session->data['token'];
+            $token_name = 'token';
+        }
 		
-        $data['token'] = $this->session->data['token'];
+        $data['breadcrumbs'] = array();
+        
+        $data['breadcrumbs'][] = array(
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', $token_name . '=' . $this->token, 'SSL')
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text' => $this->language->get('heading_title'),
+            'href' => $this->url->link('sale/visa', $token_name . '=' . $this->token, 'SSL')            
+        );		
+		
+        $data['user_token'] = $data['token'] = $this->token;
 		
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
@@ -256,6 +267,7 @@ class ControllerSaleVisa extends Controller {
         );
 
         $data['token'] = $this->session->data['token'];
+        $data['user_token'] = $this->session->data['user_token'];
 		
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];

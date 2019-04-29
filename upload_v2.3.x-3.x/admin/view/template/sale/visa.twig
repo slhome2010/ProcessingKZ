@@ -34,10 +34,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							{% if orders %}
-			  				
-								{% for order in orders %}
-									
+							{% if orders %}			  				
+								{% for order in orders %}									
 									<tr>
 										<td class="text-right">{{order['visa_id']}}</td>
 										<td class="text-right">{{order['order_id']}}</td>
@@ -46,7 +44,7 @@
 										<td class="text-left">{{order['date_added']}}</td>
 										<td class="text-right">{{order['total']}}</td>                                 
 										<td class="text-right">{% for action in order['action'] %}
-											{% if order['transaction_status'] === 'AUTHORISED' %}
+											{% if order['transaction_status'] == 'AUTHORISED' %}
 												<a onclick="confirm({{order['visa_id']}});" data-toggle="tooltip" title="{{action['text1']}}" class="btn btn-success"><i class="fa fa-plus-circle"></i></a>
 												<a onclick="cancel({{order['visa_id']}});" data-toggle="tooltip" title="{{action['text2']}}" class="btn btn-warning"><i class="fa fa-minus-circle"></i></a>					
 											{% endif %}
@@ -88,7 +86,7 @@
 			type: 'GET',
 			dataType: 'json',
 			data: '&visa_id=' + idd,
-			url: 'index.php?route=sale/visa/refresh&token=' + token,
+			url: 'index.php?route=sale/visa/refresh&user_token=' + token,
 			success: function (message) {
 				document.all.s.rows[myRow].cells[3].innerHTML = message['status'];
 				document.all.s.rows[myRow].cells[2].innerHTML = message['reference'];
@@ -106,7 +104,7 @@
 			type: 'GET',
 			dataType: 'json',
 			data: '&visa_id=' + id,
-			url: 'index.php?route=sale/visa/confirm&token=' + token,
+			url: 'index.php?route=sale/visa/confirm&user_token=' + token,
 			success: function (message) {
 				document.all.s.rows[myRow].cells[3].innerHTML = message['status'];
 				window.location.reload(true);
@@ -122,7 +120,7 @@
 			type: 'GET',
 			dataType: 'json',
 			data: '&visa_id=' + id,
-			url: 'index.php?route=sale/visa/cancel&token=' + token,
+			url: 'index.php?route=sale/visa/cancel&user_token=' + token,
 			success: function (message) {
 				document.all.s.rows[myRow].cells[3].innerHTML = message['status'];
 				window.location.reload(true);
@@ -138,7 +136,7 @@
 			type: 'GET',
 			dataType: 'json',
 			data: '&visa_id=' + id,
-			url: 'index.php?route=sale/visa/verified&token=' + token,
+			url: 'index.php?route=sale/visa/verified&user_token=' + token,
 			success: function (message) {
 				document.all.s.rows[myRow].cells[3].innerHTML = message['country'];
 				document.all.s.rows[myRow].cells[2].innerHTML = message['ip'];
