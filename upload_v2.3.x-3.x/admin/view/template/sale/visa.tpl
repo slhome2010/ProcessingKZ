@@ -3,7 +3,7 @@
   <div class="page-header">
     <div class="container-fluid">
 	  <div class="pull-right"><a data-toggle="tooltip" title="<?php echo $button_refresh; ?>" class="btn btn-primary"><i onclick="window.location.reload( true );" class="fa fa-refresh"></i></a></div>
-      <h1><img height="32" src="view/image/payment/halyk-logo.jpg" alt="" /> <?php echo $heading_title; ?></h1>
+      <h1><img height="32" src="view/image/payment/visa.png" alt="" /> <?php echo $heading_title; ?></h1>
       <ul class="breadcrumb">
         <?php foreach ($breadcrumbs as $breadcrumb) { ?>
         <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>

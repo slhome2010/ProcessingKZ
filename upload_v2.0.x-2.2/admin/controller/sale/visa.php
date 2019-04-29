@@ -99,9 +99,11 @@ class ControllerSaleVisa extends Controller {
       
         $data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
-		
-        $this->response->setOutput($this->load->view('sale/visa', $data));
+        $data['footer'] = $this->load->controller('common/footer');
+        
+        $tpl = version_compare(VERSION, '2.2.0', '>=') ? "" : ".tpl";
+        $this->response->setOutput($this->load->view('sale/visa' . $tpl, $data));
+      
     }
 
     public function refresh() {
@@ -337,4 +339,3 @@ class ControllerSaleVisa extends Controller {
         $this->response->setOutput($this->load->view('sale/visa_info', $data));       
     }
 }
-?>

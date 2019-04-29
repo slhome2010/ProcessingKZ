@@ -1,7 +1,10 @@
 <?php 
-class ModelExtensionPaymentProcessingkz extends Model {
+class ModelPaymentProcessingkz extends Model {
   	public function getMethod($address, $total) {
-		$this->load->language('extension/payment/processingkz');
+		
+		$extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";
+        
+		$this->load->language($extension . 'payment/processingkz');
 		
     	$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('processingkz_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 			
@@ -57,4 +60,4 @@ class ModelExtensionPaymentProcessingkz extends Model {
 	}
 	
 }
-?>
+class ModelExtensionPaymentProcessingkz extends ModelPaymentProcessingkz {}

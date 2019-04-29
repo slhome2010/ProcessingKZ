@@ -239,7 +239,9 @@ class ControllerPaymentProcessingkz extends Controller {
 	}
 
 	private function validate() {
-		if (!$this->user->hasPermission('modify', 'extension/payment/processingkz')) {
+		$extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";
+
+		if (!$this->user->hasPermission('modify', $extension . 'payment/processingkz')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		
