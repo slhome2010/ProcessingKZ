@@ -1,18 +1,22 @@
 <?php
 require_once(DIR_SYSTEM . 'library/processingkz/ip2locationlite.class.php');
 
-class ControllerSaleVisa extends Controller {
+class ControllerSaleVisa extends Controller
+{
 
     private $token;
 
-    public function index() {
-        
-		$this->load->language('sale/visa');
+    public function index()
+    {
 
-		$this->document->setTitle($this->language->get('heading_title'));
+        $ssl = version_compare(VERSION, '2.2.0', '>=') ? true : 'SSL';
+       
+        $this->load->language('sale/visa');
 
-		$data['heading_title'] = $this->language->get('heading_title');
-        
+        $this->document->setTitle($this->language->get('heading_title'));
+
+        $data['heading_title'] = $this->language->get('heading_title');
+
         $data['text_latest_10_orders'] = $this->language->get('text_latest_10_orders');
         $data['text_total_order'] = $this->language->get('text_total_order');
 
@@ -36,27 +40,26 @@ class ControllerSaleVisa extends Controller {
             $this->token = $this->session->data['token'];
             $token_name = 'token';
         }
-		
+
+        $data['user_token'] = $data['token'] = $this->token;
         $data['breadcrumbs'] = array();
-        
+
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('text_home'),
-            'href' => $this->url->link('common/dashboard', $token_name . '=' . $this->token, 'SSL')
+            'href' => $this->url->link('common/dashboard', $token_name . '=' . $this->token, $ssl)
         );
 
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('sale/visa', $token_name . '=' . $this->token, 'SSL')            
-        );		
-		
-        $data['user_token'] = $data['token'] = $this->token;
-		
-		if (isset($this->error['warning'])) {
-			$data['error_warning'] = $this->error['warning'];
-		} else {
-			$data['error_warning'] = '';
-		}
-		
+            'href' => $this->url->link('sale/visa', $token_name . '=' . $this->token, $ssl)
+        );        
+
+        if (isset($this->error['warning'])) {
+            $data['error_warning'] = $this->error['warning'];
+        } else {
+            $data['error_warning'] = '';
+        }
+
         $this->load->model('sale/visa');
 
         $data['orders'] = array();
@@ -78,10 +81,10 @@ class ControllerSaleVisa extends Controller {
                 'text1' => $this->language->get('text_confirm'),
                 'text2' => $this->language->get('text_cancel'),
                 'text3' => $this->language->get('text_verified'),
-                'href' => $this->url->link('sale/visa/info', 'token=' . $this->session->data['token'] .
-                        '&order_id=' . $result['order_id'] .
-                        '&customer_reference=' . $result['customer_reference'] .
-                        '&transaction_status=' . $result['transaction_status'], 'SSL')
+                'href' => $this->url->link('sale/visa/info', $token_name . '=' . $this->token .
+                    '&order_id=' . $result['order_id'] .
+                    '&customer_reference=' . $result['customer_reference'] .
+                    '&transaction_status=' . $result['transaction_status'], $ssl)
             );
 
             $data['orders'][] = array(
@@ -96,20 +99,20 @@ class ControllerSaleVisa extends Controller {
                 'action' => $action
             );
         }
-      
+
         $data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
+        $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
-        
+
         $tpl = version_compare(VERSION, '2.2.0', '>=') ? "" : ".tpl";
         $this->response->setOutput($this->load->view('sale/visa' . $tpl, $data));
-      
     }
 
-    public function refresh() {
+    public function refresh()
+    {
 
         $this->load->model('sale/visa');
-        $visaID = (isset($this->request->get['visa_id'])) ? (int) $this->request->get['visa_id'] : NULL;
+        $visaID = (isset($this->request->get['visa_id'])) ? (int)$this->request->get['visa_id'] : NULL;
 
         $data['orders'] = array();
 
@@ -134,10 +137,11 @@ class ControllerSaleVisa extends Controller {
         echo json_encode(array('warning' => ($this->error) ? $this->error['warning'] : FALSE, 'success' => (!$this->error) ? $this->language->get('text_success') : FALSE, 'status' => $status, 'reference' => $result['customer_reference']));
     }
 
-    public function confirm() {
+    public function confirm()
+    {
 
         $this->load->model('sale/visa');
-        $visaID = (isset($this->request->get['visa_id'])) ? (int) $this->request->get['visa_id'] : NULL;
+        $visaID = (isset($this->request->get['visa_id'])) ? (int)$this->request->get['visa_id'] : NULL;
 
         $data['orders'] = array();
 
@@ -163,20 +167,23 @@ class ControllerSaleVisa extends Controller {
                 'order_status_id' => $this->config->get('processingkz_order_status_id'),
             );
             $this->model_sale_visa->addOrderHistory($result['order_id'], $history);
-			
+
             $this->language->load('sale/visa');
-            echo json_encode(array('warning' => ($this->error) ? $this->error['warning'] : FALSE, 'success' => (!$this->error) ? $this->language->get('text_confirm_success') : FALSE,
-                'status' => $status, 'reference' => $result['customer_reference']));
+            echo json_encode(array(
+                'warning' => ($this->error) ? $this->error['warning'] : FALSE, 'success' => (!$this->error) ? $this->language->get('text_confirm_success') : FALSE,
+                'status' => $status, 'reference' => $result['customer_reference']
+            ));
         } else {
             echo json_encode(array('warning' => ($this->error) ? $this->error['warning'] : FALSE, 'success' => (!$this->error) ? $this->language->get('text_error') : FALSE, 'status' => $status, 'reference' => $result['customer_reference']));
         }
     }
 
-    public function cancel() {
+    public function cancel()
+    {
 
         $this->load->model('sale/visa');
-        $visaID = (isset($this->request->get['visa_id'])) ? (int) $this->request->get['visa_id'] : NULL;
-        $statusElem = (isset($this->request->get['statusElem'])) ? (int) $this->request->get['statusElem'] : NULL;
+        $visaID = (isset($this->request->get['visa_id'])) ? (int)$this->request->get['visa_id'] : NULL;
+        $statusElem = (isset($this->request->get['statusElem'])) ? (int)$this->request->get['statusElem'] : NULL;
 
         $data['orders'] = array();
 
@@ -206,27 +213,33 @@ class ControllerSaleVisa extends Controller {
             $this->model_sale_visa->addOrderHistory($result['order_id'], $history);
 
             $this->language->load('sale/visa');
-            echo json_encode(array('warning' => ($this->error) ? $this->error['warning'] : FALSE, 'success' => (!$this->error) ? $this->language->get('text_cancel_success') : FALSE,
-                'status' => $status, 'reference' => $result['customer_reference']));
+            echo json_encode(array(
+                'warning' => ($this->error) ? $this->error['warning'] : FALSE, 'success' => (!$this->error) ? $this->language->get('text_cancel_success') : FALSE,
+                'status' => $status, 'reference' => $result['customer_reference']
+            ));
         } else {
-            echo json_encode(array('warning' => ($this->error) ? $this->error['warning'] : FALSE, 'success' => (!$this->error) ? $this->language->get('text_error') : FALSE,
-                'status' => $status, 'reference' => $result['customer_reference']));
+            echo json_encode(array(
+                'warning' => ($this->error) ? $this->error['warning'] : FALSE, 'success' => (!$this->error) ? $this->language->get('text_error') : FALSE,
+                'status' => $status, 'reference' => $result['customer_reference']
+            ));
         }
     }
 
-    public function info() {
+    public function info()
+    {
+        $ssl = version_compare(VERSION, '2.2.0', '>=') ? true : 'SSL';
         $this->load->language('sale/visa');
-		
+
         $this->document->setTitle($this->language->get('heading_title2'));
 
         $data['heading_title'] = $this->language->get('heading_title2');
         $data['button_back'] = $this->language->get('button_back');
-		$data['text_verified'] = $this->language->get('text_verified');
-		
+        $data['text_verified'] = $this->language->get('text_verified');
+
         $data['text_latest_10_orders'] = $this->language->get('text_latest_10_orders');
         $data['text_total_order'] = $this->language->get('text_total_order');
         $data['text_no_results'] = $this->language->get('text_no_results');
-        $data['text_visa_big_total'] = $this->language->get('text_visa_big_total');       
+        $data['text_visa_big_total'] = $this->language->get('text_visa_big_total');
 
         $data['column_visa'] = $this->language->get('column_visa');
         $data['column_order'] = $this->language->get('column_order');
@@ -243,16 +256,27 @@ class ControllerSaleVisa extends Controller {
         $data['column_verified'] = $this->language->get('column_verified');
         $data['column_ip'] = $this->language->get('column_ip');
 
+        if (isset($this->session->data['user_token'])) {
+            $this->token = $this->session->data['user_token'];
+            $token_name = 'user_token';
+        }
+        if (isset($this->session->data['token'])) {
+            $this->token = $this->session->data['token'];
+            $token_name = 'token';
+        }
+
+        $data['user_token'] = $data['token'] = $this->token;
+
         $data['breadcrumbs'] = array();
 
         $data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL')
-		);
-		
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', $token_name . '=' . $this->token, $ssl)
+        );
+
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('sale/visa', 'token=' . $this->session->data['token'], 'SSL'),            
+            'href' => $this->url->link('sale/visa', $token_name . '=' . $this->token, $ssl),
         );
 
         //$visaID = (isset ($this->request->get['visa_id'])) ? (int) $this->request->get['visa_id'] : NULL;
@@ -262,22 +286,19 @@ class ControllerSaleVisa extends Controller {
 
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('heading_title2'),
-            'href' => $this->url->link('sale/visa/info', 'token=' . $this->session->data['token'] .
-                    '&order_id=' . $orderID .
-                    '&customer_reference=' . $reference .
-                    '&transaction_status=' . $status, 'SSL')            
+            'href' => $this->url->link('sale/visa/info', $token_name . '=' . $this->token .
+                '&order_id=' . $orderID .
+                '&customer_reference=' . $reference .
+                '&transaction_status=' . $status, $ssl)
         );
+        
+        if (isset($this->error['warning'])) {
+            $data['error_warning'] = $this->error['warning'];
+        } else {
+            $data['error_warning'] = '';
+        }
 
-        $data['token'] = $this->session->data['token'];
-        $data['user_token'] = $this->session->data['user_token'];
-		
-		if (isset($this->error['warning'])) {
-			$data['error_warning'] = $this->error['warning'];
-		} else {
-			$data['error_warning'] = '';
-		}
-       
-	   $data['cancel'] = $this->url->link('sale/visa', 'token=' . $this->session->data['token'], 'SSL');
+        $data['cancel'] = $this->url->link('sale/visa', $token_name . '=' . $this->token, $ssl);
 
         $this->load->model('sale/visa');
 
@@ -286,7 +307,7 @@ class ControllerSaleVisa extends Controller {
         $set = array(
             'sort' => 'o.date_added',
             'order' => 'DESC',
-            'filter_order_id' => (int) $orderID,
+            'filter_order_id' => (int)$orderID,
             'order_id' => $orderID,
             'customer_reference' => $reference,
             'start' => 0,
@@ -299,20 +320,20 @@ class ControllerSaleVisa extends Controller {
 
         $results = $this->model_sale_visa->getOrders($set);
 
-        foreach ($results as $result) {            
+        foreach ($results as $result) {
             if ($result['ip_address']) {
                 $geoip = new ip2location_lite;
                 $geoip->setKey($this->config->get('processingkz_apikey'));
                 $locations = $geoip->getCity($result['ip_address']);
                 $errors = $geoip->getError();
                 if (!empty($errors)) {
-                    $data['text_geoip'] = 'errors'.'<pre>'.print_r($errors, true).'</pre>';
+                    $data['text_geoip'] = 'errors' . '<pre>' . print_r($errors, true) . '</pre>';
                 } else {
                     $data['text_geoip'] = $locations['countryName'] . ', ' . $locations['cityName'];
                 }
             } else {
                 $data['text_geoip'] = '';
-            }          
+            }
 
             $data['orders'][] = array(
                 'visa_id' => $result['visa_id'],
@@ -331,11 +352,22 @@ class ControllerSaleVisa extends Controller {
                 'ip_address' => $result['ip_address']
             );
         }
-     
-        $data['header'] = $this->load->controller('common/header');	
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
 
-        $this->response->setOutput($this->load->view('sale/visa_info', $data));       
+        if (version_compare(VERSION, '2.0.1', '>=')) {
+            $data['header'] = $this->load->controller('common/header');
+            $data['column_left'] = $this->load->controller('common/column_left');
+            $data['footer'] = $this->load->controller('common/footer');
+
+
+            $tpl = version_compare(VERSION, '2.2.0', '>=') ? "" : ".tpl";
+            $this->response->setOutput($this->load->view('sale/visa_info' . $tpl, $data));
+        } else {
+            $this->template = 'payment/processingkz.tpl';
+            $this->children = array(
+                'common/header',
+                'common/footer'
+            );
+            $this->response->setOutput($this->render());
+        }
     }
 }

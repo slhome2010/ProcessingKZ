@@ -39,7 +39,7 @@
             <tr>
               <td>{{column_total}}</td>
               <td>{{order['total']}}</td>
-              {% if (float)$order['total'] > (float)$order['visa_big_total'] %}
+              {% if order['total'] > order['visa_big_total'] %}
               <td style="color: red;"> {{text_visa_big_total}} </td>
               {% endif %}
             </tr>
@@ -59,7 +59,7 @@
             <tr>
               <td>{{column_ip}}</td>
               <td>{{order['ip_address']}}
-                {% if $order['ip_address'] %}
+                {% if order['ip_address'] %}
                 [ <a class="text-right" href="http://whatismyipaddress.com/ip/{{order['ip_address']}}" target="_blank">{{text_geoip}}</a> ]
                 {% endif %}
               </td>
