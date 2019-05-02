@@ -37,7 +37,7 @@ class ControllerPaymentProcessingkz extends Controller {
         $this->data['edit'] = $edit;
 
         $this->data['heading_title'] = strip_tags($this->language->get('heading_title')) . ' ' . MODULE_VERSION;
-		//$this->document->setTitle(strip_tags($this->language->get('heading_title')));
+		$this->document->setTitle(strip_tags($this->language->get('heading_title')) . ' ' . MODULE_VERSION);
 		
 		$this->load->model('setting/setting');
 		
