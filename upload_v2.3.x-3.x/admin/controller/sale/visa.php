@@ -36,6 +36,8 @@ class ControllerSaleVisa extends Controller {
             $this->token = $this->session->data['token'];
             $token_name = 'token';
         }
+
+        $data['user_token'] = $data['token'] = $this->token;
 		
         $data['breadcrumbs'] = array();
         
@@ -46,11 +48,9 @@ class ControllerSaleVisa extends Controller {
 
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('sale/visa', $token_name . '=' . $this->token, 'SSL')            
-        );		
-		
-        $data['user_token'] = $data['token'] = $this->token;
-		
+            'href' => $this->url->link('sale/visa', $token_name . '=' . $this->token, 'SSL')      
+        );	
+
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
@@ -268,8 +268,8 @@ class ControllerSaleVisa extends Controller {
                     '&transaction_status=' . $status, 'SSL')            
         );
 
-        $data['token'] = $this->session->data['token'];
-        $data['user_token'] = $this->session->data['user_token'];
+        /* $data['token'] = $this->session->data['token'];
+        $data['user_token'] = $this->session->data['user_token']; */
 		
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
