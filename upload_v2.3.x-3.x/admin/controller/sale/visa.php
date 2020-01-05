@@ -42,10 +42,6 @@ class ControllerSaleVisa extends Controller
         }
 
         $data['user_token'] = $data['token'] = $this->token;
-<<<<<<< HEAD
-		
-=======
->>>>>>> a2db1a01e17f1b3d1d16da0e9449e1cdf774bfb5
         $data['breadcrumbs'] = array();
 
         $data['breadcrumbs'][] = array(
@@ -55,17 +51,6 @@ class ControllerSaleVisa extends Controller
 
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('heading_title'),
-<<<<<<< HEAD
-            'href' => $this->url->link('sale/visa', $token_name . '=' . $this->token, 'SSL')      
-        );	
-
-		if (isset($this->error['warning'])) {
-			$data['error_warning'] = $this->error['warning'];
-		} else {
-			$data['error_warning'] = '';
-		}
-		
-=======
             'href' => $this->url->link('sale/visa', $token_name . '=' . $this->token, $ssl)
         );        
 
@@ -75,7 +60,6 @@ class ControllerSaleVisa extends Controller
             $data['error_warning'] = '';
         }
 
->>>>>>> a2db1a01e17f1b3d1d16da0e9449e1cdf774bfb5
         $this->load->model('sale/visa');
 
         $data['orders'] = array();
@@ -314,20 +298,7 @@ class ControllerSaleVisa extends Controller
             $data['error_warning'] = '';
         }
 
-<<<<<<< HEAD
-        /* $data['token'] = $this->session->data['token'];
-        $data['user_token'] = $this->session->data['user_token']; */
-		
-		if (isset($this->error['warning'])) {
-			$data['error_warning'] = $this->error['warning'];
-		} else {
-			$data['error_warning'] = '';
-		}
-       
-	   $data['cancel'] = $this->url->link('sale/visa', 'token=' . $this->session->data['token'], 'SSL');
-=======
         $data['cancel'] = $this->url->link('sale/visa', $token_name . '=' . $this->token, $ssl);
->>>>>>> a2db1a01e17f1b3d1d16da0e9449e1cdf774bfb5
 
         $this->load->model('sale/visa');
 
