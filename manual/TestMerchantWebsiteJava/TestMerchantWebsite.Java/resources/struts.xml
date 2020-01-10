@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="false" />
+
+    <package name="default" namespace="/" extends="struts-default">
+        <action name="CapturePaymentDetails" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+        	<result>/capturePaymentDetails.jsp</result>
+        </action>
+        
+        <action name="SubmitPaymentDetails" method="requestPayment" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+        	<result>/capturePaymentDetails.jsp</result>
+        </action>
+        
+        <action name="AddGoods" method="addGoods" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+        	<result>/capturePaymentDetails.jsp</result>
+        </action>
+        
+        <action name="AddAdditionalInfo" method="addAdditionalInfo" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+        	<result>/capturePaymentDetails.jsp</result>
+        </action>
+        
+         <action name="RemoveGoods" method="removeGoods" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+        	<result>/capturePaymentDetails.jsp</result>
+        </action>
+        
+        <action name="RemoveAdditionalInfo" method="removeAdditionalInfo" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+        	<result>/capturePaymentDetails.jsp</result>
+        </action>
+        
+        <action name="ShowResult" method="viewPaymentResult" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+            <result>/showPaymentResults.jsp</result>
+        </action>
+        <action name="Settle" method="settle" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+            <result>/showPaymentResults.jsp</result>
+        </action>
+        <action name="Reverse" method="reverse" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+            <result>/showPaymentResults.jsp</result>
+        </action>
+        <action name="Refund" method="refund" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+            <result>/showPaymentResults.jsp</result>
+        </action>
+
+        <action name="CaptureRegistrationDetails" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+            <result>/captureRegistrationDetails.jsp</result>
+        </action>
+
+        <action name="RequestRegistration" method="requestRegistration" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+            <result>/captureRegistrationDetails.jsp</result>
+        </action>
+
+        <action name="ShowRegistrationResult" method="showRegistrationResult" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+            <result>/showRegistrationResults.jsp</result>
+        </action>
+
+        <action name="RegisterSuccess" method="registerSuccess" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+            <result>/showRegistrationResults.jsp</result>
+        </action>
+
+        <action name="RegisterFail" method="registerFail" class="kz.processing.cnp.merchant_test_website.ProcessPayment">
+            <result>/showRegistrationResults.jsp</result>
+        </action>
+
+    </package>
+
+
+    <constant name="struts.action.excludePattern" value="/Test"/>
+    <!-- Add packages here -->
+
+</struts>

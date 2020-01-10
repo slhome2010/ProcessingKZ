@@ -1,6 +1,7 @@
 <?php
 
-class StartTransactionResult {
+class StartTransactionResult
+{
 
     public $customerReference; // string
     public $errorDescription; // string
@@ -9,7 +10,8 @@ class StartTransactionResult {
 
 }
 
-class TransactionDetails {
+class TransactionDetails
+{
 
     public $billingAddress; // Address
     public $currencyCode; // int
@@ -30,7 +32,8 @@ class TransactionDetails {
 
 }
 
-class Address {
+class Address
+{
 
     public $addressLine1; // string
     public $addressLine2; // string
@@ -41,7 +44,8 @@ class Address {
 
 }
 
-class GoodsItem {
+class GoodsItem
+{
 
     public $amount; // string
     public $currencyCode; // int
@@ -50,14 +54,16 @@ class GoodsItem {
 
 }
 
-class AdditionalInformation {
+class AdditionalInformation
+{
 
     public $key; // string
     public $value; // string
 
 }
 
-class StoredTransactionStatus {
+class StoredTransactionStatus
+{
 
     public $additionalInformation; // AdditionalInformation
     public $amountAuthorised; // string
@@ -71,28 +77,31 @@ class StoredTransactionStatus {
 
 }
 
-class StoredTransactionStatusExtended {
+class StoredTransactionStatusExtended
+{
 
     public $cardIssuerCountry;
     public $maskedCardNumber;
     public $purchaserIpAddress;
     public $verified3D;
-
 }
 
-class startTransaction {
+class startTransaction
+{
 
     public $transaction; // TransactionDetails
 
 }
 
-class startTransactionResponse {
+class startTransactionResponse
+{
 
     public $return; // StartTransactionResult
 
 }
 
-class refundTransaction {
+class refundTransaction
+{
 
     public $merchantId; // string
     public $password; // string
@@ -104,45 +113,52 @@ class refundTransaction {
 
 }
 
-class refundTransactionResponse {
+class refundTransactionResponse
+{
 
     public $return; // boolean
 
 }
 
-class getVersionResponse {
+class getVersionResponse
+{
 
     public $return; // string
 
 }
 
-class getTransactionStatus {
+class getTransactionStatus
+{
 
     public $merchantId; // string
     public $referenceNr; // string
 
 }
 
-class getExtendedTransactionStatus {
+class getExtendedTransactionStatus
+{
 
     public $merchantId; // string
     public $referenceNr; // string
 
 }
 
-class getTransactionStatusResponse {
+class getTransactionStatusResponse
+{
 
     public $return; // StoredTransactionStatus
 
 }
 
-class getExtendedTransactionStatusResponse {
+class getExtendedTransactionStatusResponse
+{
 
     public $return; // StoredTransactionStatus
 
 }
 
-class completeTransaction {
+class completeTransaction
+{
 
     public $merchantId; // string
     public $referenceNr; // string
@@ -151,7 +167,8 @@ class completeTransaction {
 
 }
 
-class completeTransactionResponse {
+class completeTransactionResponse
+{
 
     public $return; // boolean
 
@@ -166,7 +183,8 @@ class completeTransactionResponse {
  * @copyright {copyright}
  * @package   {package}
  */
-class CNPMerchantWebServiceClient extends SoapClient {
+class CNPMerchantWebServiceClient extends SoapClient
+{
 
     private static $client = NULL;
     private static $classmap = array(
@@ -190,15 +208,18 @@ class CNPMerchantWebServiceClient extends SoapClient {
         'completeTransactionResponse' => 'completeTransactionResponse',
     );
 
-    public function __construct($wsdl = 'https://payment.processinggmbh.ch/CNPMerchantWebServices/services/CNPMerchantWebService?wsdl', $options = array('connection_timeout' => 60,
-   // public function __construct($wsdl = 'https://test.processing.kz/CNPMerchantWebServices/services/CNPMerchantWebService.wsdl', $options = array('connection_timeout' => 60,
-        'cache_wsdl' => WSDL_CACHE_MEMORY,
-        'trace' => 1,
-        'soap_version' => 'SOAP 1.2',
-        'encoding' => 'UTF-8',
-        'exceptions' => true,
-        'location' => 'https://payment.processinggmbh.ch/CNPMerchantWebServices/services/CNPMerchantWebService')) {
-       // 'location' => 'https://test.processing.kz/CNPMerchantWebServices/services/CNPMerchantWebService')) {
+    public function __construct(
+        $wsdl = 'https://payment.processinggmbh.ch/CNPMerchantWebServices/services/CNPMerchantWebService?wsdl',
+        $options = array(
+            'connection_timeout' => 60,
+            'cache_wsdl' => WSDL_CACHE_MEMORY,
+            'trace' => 1,
+            'soap_version' => 'SOAP 1.2',
+            'encoding' => 'UTF-8',
+            'exceptions' => true,
+            'location' => 'https://payment.processinggmbh.ch/CNPMerchantWebServices/services/CNPMerchantWebService'
+        )
+    ) {
         foreach (self::$classmap as $key => $value) {
             if (!isset($options['classmap'][$key])) {
                 $options['classmap'][$key] = $value;
@@ -213,11 +234,15 @@ class CNPMerchantWebServiceClient extends SoapClient {
      * @param startTransaction $parameters
      * @return startTransactionResponse
      */
-    public function startTransaction(startTransaction $parameters) {
-        return $this->__soapCall('startTransaction', array($parameters), array(
-                    'uri' => 'https://kz.processing.cnp.merchant_ws/',
-                    'soapaction' => ''
-                        )
+    public function startTransaction(startTransaction $parameters)
+    {
+        return $this->__soapCall(
+            'startTransaction',
+            array($parameters),
+            array(
+                'uri' => 'https://kz.processing.cnp.merchant_ws/',
+                'soapaction' => ''
+            )
         );
     }
 
@@ -227,11 +252,15 @@ class CNPMerchantWebServiceClient extends SoapClient {
      * @param refundTransaction $parameters
      * @return refundTransactionResponse
      */
-    public function refundTransaction(refundTransaction $parameters) {
-        return $this->__soapCall('refundTransaction', array($parameters), array(
-                    'uri' => 'https://kz.processing.cnp.merchant_ws/',
-                    'soapaction' => ''
-                        )
+    public function refundTransaction(refundTransaction $parameters)
+    {
+        return $this->__soapCall(
+            'refundTransaction',
+            array($parameters),
+            array(
+                'uri' => 'https://kz.processing.cnp.merchant_ws/',
+                'soapaction' => ''
+            )
         );
     }
 
@@ -241,11 +270,15 @@ class CNPMerchantWebServiceClient extends SoapClient {
      * @param
      * @return getVersionResponse
      */
-    public function getVersion() {
-        return $this->__soapCall('getVersion', array(), array(
-                    'uri' => 'https://kz.processing.cnp.merchant_ws/',
-                    'soapaction' => ''
-                        )
+    public function getVersion()
+    {
+        return $this->__soapCall(
+            'getVersion',
+            array(),
+            array(
+                'uri' => 'https://kz.processing.cnp.merchant_ws/',
+                'soapaction' => ''
+            )
         );
     }
 
@@ -255,11 +288,15 @@ class CNPMerchantWebServiceClient extends SoapClient {
      * @param getTransactionStatus $parameters
      * @return getTransactionStatusResponse
      */
-    public function getTransactionStatus(getTransactionStatus $parameters) {
-        return $this->__soapCall('getTransactionStatus', array($parameters), array(
-                    'uri' => 'https://kz.processing.cnp.merchant_ws/',
-                    'soapaction' => ''
-                        )
+    public function getTransactionStatus(getTransactionStatus $parameters)
+    {
+        return $this->__soapCall(
+            'getTransactionStatus',
+            array($parameters),
+            array(
+                'uri' => 'https://kz.processing.cnp.merchant_ws/',
+                'soapaction' => ''
+            )
         );
     }
 
@@ -269,11 +306,15 @@ class CNPMerchantWebServiceClient extends SoapClient {
      * @param getExtendedTransactionStatus $parameters
      * @return getExtendedTransactionStatusResponse
      */
-    public function getExtendedTransactionStatus(getExtendedTransactionStatus $parameters) {
-        return $this->__soapCall('getExtendedTransactionStatus', array($parameters), array(
-                    'uri' => 'https://kz.processing.cnp.merchant_ws/',
-                    'soapaction' => ''
-                        )
+    public function getExtendedTransactionStatus(getExtendedTransactionStatus $parameters)
+    {
+        return $this->__soapCall(
+            'getExtendedTransactionStatus',
+            array($parameters),
+            array(
+                'uri' => 'https://kz.processing.cnp.merchant_ws/',
+                'soapaction' => ''
+            )
         );
     }
 
@@ -283,30 +324,32 @@ class CNPMerchantWebServiceClient extends SoapClient {
      * @param completeTransaction $parameters
      * @return completeTransactionResponse
      */
-    public function completeTransaction(completeTransaction $parameters) {
-        return $this->__soapCall('completeTransaction', array($parameters), array(
-                    'uri' => 'https://kz.processing.cnp.merchant_ws/',
-                    'soapaction' => ''
-                        )
+    public function completeTransaction(completeTransaction $parameters)
+    {
+        return $this->__soapCall(
+            'completeTransaction',
+            array($parameters),
+            array(
+                'uri' => 'https://kz.processing.cnp.merchant_ws/',
+                'soapaction' => ''
+            )
         );
     }
-
 }
 
-function guid() {
+function guid()
+{
     if (function_exists('com_create_guid')) {
         return str_replace("}", "", str_replace("{", "", com_create_guid()));
     } else {
-        mt_srand((double) microtime() * 10000); //optional for php 4.2.0 and up.
+        mt_srand((float) microtime() * 10000); //optional for php 4.2.0 and up.
         $charid = strtoupper(md5(uniqid(rand(), true)));
         $hyphen = chr(45); // "-"
         $uuid = substr($charid, 0, 8) . $hyphen
-                . substr($charid, 8, 4) . $hyphen
-                . substr($charid, 12, 4) . $hyphen
-                . substr($charid, 16, 4) . $hyphen
-                . substr($charid, 20, 12);
+            . substr($charid, 8, 4) . $hyphen
+            . substr($charid, 12, 4) . $hyphen
+            . substr($charid, 16, 4) . $hyphen
+            . substr($charid, 20, 12);
     }
     return $uuid;
 }
-
-?>
