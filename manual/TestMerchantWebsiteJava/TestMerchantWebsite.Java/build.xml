@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project>
+<project name="CNPTestMerchantWebsite" basedir="." default="war">
+	<!-- The current App Version -->
+	<property name="AppVersion" value="1.01" />
+	<!-- Uncomment the following line to prevent checkin -->
+	<!-- property name="dont_checkin" value="true" / -->
+    <property environment="env"/>
+    <property name="docs.build.dir" value="doc"/>
+	<!-- Define overall properties -->
+	<property name="packageFileName" value="TestMerchantWebsite" />
+	<property name="BuildDir" value="build" />
+	<property name="warFileName" value="${packageFileName}.war" />
+	<property name="manifestFile" value="WebContent/META-INF/MANIFEST.MF" />
+	<property name="webXMLFile" value="WebContent/WEB-INF/web.xml" />
+		
+    <!--  all properties are in build.properties -->
+	<property file="build.properties" />
+	<!-- path to the svnant libraries. Usually they will be located in ANT_HOME/lib -->
+	<path id="svnant.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+		
+    <property environment="env"/>
+    <property name="build.dir" value="build"/>
+    <path id="axis2.classpath">
+        <fileset dir="WebContent/WEB-INF/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+	
+	<path id="classpath">
+		<fileset dir="WebContent/WEB-INF/lib" id="libdir">
+			<exclude name=".svn" />
+			<exclude name="**/.svn" />
+		</fileset>
+		<fileset dir="C:\Java\Apache\apache-tomcat-6.0.32\lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+    <!-- Used to package the application for deployment onto tomcat servers -->
+	<target name="war" >
+		<delete dir="${BuildDir}" />
+		<mkdir dir="${BuildDir}/src" />
+		<mkdir dir="${BuildDir}/${packageFileName}" />
+		<mkdir dir="${BuildDir}/${packageFileName}/WEB-INF" />
+		<mkdir dir="${BuildDir}/${packageFileName}/WEB-INF/lib" />
+		<mkdir dir="${BuildDir}/${packageFileName}/WEB-INF/classes" />
+		<copy todir="${BuildDir}/${packageFileName}/WEB-INF/classes">
+			<fileset dir="resources">
+				<include name="**" />
+				<exclude name=".svn" />
+				<exclude name="**/.svn" />
+			</fileset>
+		</copy>
+		<copy todir="${BuildDir}/${packageFileName}">
+			<fileset dir="WebContent">
+				<include name="*.jsp" />
+				<include name="*.html" />
+			</fileset>
+		</copy>
+		<copy todir="${BuildDir}/src">
+			<fileset dir="src">
+				<exclude name=".svn" />
+				<exclude name="**/.svn" />
+			</fileset>
+		</copy>
+		<copy todir="${BuildDir}/${packageFileName}/WEB-INF/lib" >
+			<fileset refid="libdir" />
+		</copy>
+
+		<replace file="${BuildDir}/${packageFileName}/version.html" value="${AppVersion}">
+			<replacetoken>@VERSION@</replacetoken>
+		</replace>		
+
+		<replace file="${BuildDir}/${packageFileName}/version.html" value="${revision.max}">
+			<replacetoken>@REVISION@</replacetoken>
+		</replace>
+
+		<javac srcdir="${BuildDir}/src" destdir="${BuildDir}/${packageFileName}/WEB-INF/classes" target="1.6" source="1.6" classpathref="classpath" />
+				
+		<war destfile="${BuildDir}/${warFileName}" manifest="${manifestFile}" webxml="${webXMLFile}">
+			<fileset dir="${BuildDir}/${packageFileName}">
+				<include name="*" />
+				<include name="**" />
+			</fileset>
+		</war>
+
+		<!-- Cleanup -->
+		<delete dir="${BuildDir}/src" />
+		<delete dir="${BuildDir}/${packageFileName}" />
+	</target>
+	
+</project>

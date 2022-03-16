@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ax21="http://beans.common.cnp.processing.kz/xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ax23="http://beans.merchant_web_services.cnp.processing.kz/xsd" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:axis2="http://kz.processing.cnp.merchant_ws/" xmlns:ns="http://kz.processing.cnp.merchant_ws/xsd" xmlns:ns1="http://org.apache.axis2/xsd" targetNamespace="http://kz.processing.cnp.merchant_ws/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>CNPMerchantWebService</wsdl:documentation>
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://beans.merchant_web_services.cnp.processing.kz/xsd">
+      <xs:complexType name="StartTransactionResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="customerReference" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="errorDescription" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="redirectURL" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="success" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://beans.common.cnp.processing.kz/xsd">
+      <xs:complexType name="TransactionDetails">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="billingAddress" nillable="true" type="ax21:Address" />
+          <xs:element minOccurs="0" name="currencyCode" type="xs:int" />
+          <xs:element minOccurs="0" name="customerReference" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="goodsList" nillable="true" type="ax21:GoodsItem" />
+          <xs:element minOccurs="0" name="languageCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="merchantAdditionalInformationList" nillable="true" type="ax21:AdditionalInformation" />
+          <xs:element minOccurs="0" name="merchantId" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="merchantLocalDateTime" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="purchaserName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="returnURL" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="terminalID" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="totalAmount" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Address">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="addressLine1" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="addressLine2" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="city" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="country" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="county" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="zip" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GoodsItem">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="amount" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="currencyCode" type="xs:int" />
+          <xs:element minOccurs="0" name="merchantsGoodsID" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="nameOfGoods" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AdditionalInformation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="key" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="value" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="StoredTransactionStatus">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="additionalInformation" nillable="true" type="ax21:AdditionalInformation" />
+          <xs:element minOccurs="0" name="amountAuthorised" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="amountRefunded" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="amountRequested" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="amountSettled" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="authCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="goods" nillable="true" type="ax21:GoodsItem" />
+          <xs:element minOccurs="0" name="merchantLocalDateTime" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="merchantOnlineAddress" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="purchaserName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="transactionCurrencyCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="transactionStatus" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema xmlns:ax22="http://beans.common.cnp.processing.kz/xsd" xmlns:ax24="http://beans.merchant_web_services.cnp.processing.kz/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://kz.processing.cnp.merchant_ws/xsd">
+      <xs:import namespace="http://beans.common.cnp.processing.kz/xsd" />
+      <xs:import namespace="http://beans.merchant_web_services.cnp.processing.kz/xsd" />
+      <xs:element name="startTransaction">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="transaction" nillable="true" type="ax22:TransactionDetails" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="startTransactionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="ax24:StartTransactionResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="refundTransaction">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="merchantId" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="referenceNr" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="refundAmount" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="goodsToRefund" nillable="true" type="ax22:GoodsItem" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="additionalInformation" nillable="true" type="ax22:AdditionalInformation" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="refundTransactionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getVersionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTransactionStatus">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="merchantId" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="referenceNr" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTransactionStatusResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="ax22:StoredTransactionStatus" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="completeTransactionEx">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="merchantId" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="referenceNr" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="transactionSuccess" type="xs:boolean" />
+            <xs:element minOccurs="0" name="overrideAmount" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="goods" nillable="true" type="ax22:GoodsItem" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="completeTransactionExResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="completeTransaction">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="merchantId" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="referenceNr" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="transactionSuccess" type="xs:boolean" />
+            <xs:element minOccurs="0" name="overrideAmount" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="completeTransactionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="startTransactionRequest">
+    <wsdl:part name="parameters" element="ns:startTransaction" />
+  </wsdl:message>
+  <wsdl:message name="startTransactionResponse">
+    <wsdl:part name="parameters" element="ns:startTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="refundTransactionRequest">
+    <wsdl:part name="parameters" element="ns:refundTransaction" />
+  </wsdl:message>
+  <wsdl:message name="refundTransactionResponse">
+    <wsdl:part name="parameters" element="ns:refundTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="completeTransactionExRequest">
+    <wsdl:part name="parameters" element="ns:completeTransactionEx" />
+  </wsdl:message>
+  <wsdl:message name="completeTransactionExResponse">
+    <wsdl:part name="parameters" element="ns:completeTransactionExResponse" />
+  </wsdl:message>
+  <wsdl:message name="getVersionRequest" />
+  <wsdl:message name="getVersionResponse">
+    <wsdl:part name="parameters" element="ns:getVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="getTransactionStatusRequest">
+    <wsdl:part name="parameters" element="ns:getTransactionStatus" />
+  </wsdl:message>
+  <wsdl:message name="getTransactionStatusResponse">
+    <wsdl:part name="parameters" element="ns:getTransactionStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="completeTransactionRequest">
+    <wsdl:part name="parameters" element="ns:completeTransaction" />
+  </wsdl:message>
+  <wsdl:message name="completeTransactionResponse">
+    <wsdl:part name="parameters" element="ns:completeTransactionResponse" />
+  </wsdl:message>
+  <wsdl:portType name="CNPMerchantWebServicePortType">
+    <wsdl:operation name="startTransaction">
+      <wsdl:input wsaw:Action="urn:startTransaction" message="axis2:startTransactionRequest" />
+      <wsdl:output wsaw:Action="urn:startTransactionResponse" message="axis2:startTransactionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="refundTransaction">
+      <wsdl:input wsaw:Action="urn:refundTransaction" message="axis2:refundTransactionRequest" />
+      <wsdl:output wsaw:Action="urn:refundTransactionResponse" message="axis2:refundTransactionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="completeTransactionEx">
+      <wsdl:input wsaw:Action="urn:completeTransactionEx" message="axis2:completeTransactionExRequest" />
+      <wsdl:output wsaw:Action="urn:completeTransactionExResponse" message="axis2:completeTransactionExResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input wsaw:Action="urn:getVersion" message="axis2:getVersionRequest" />
+      <wsdl:output wsaw:Action="urn:getVersionResponse" message="axis2:getVersionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getTransactionStatus">
+      <wsdl:input wsaw:Action="urn:getTransactionStatus" message="axis2:getTransactionStatusRequest" />
+      <wsdl:output wsaw:Action="urn:getTransactionStatusResponse" message="axis2:getTransactionStatusResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="completeTransaction">
+      <wsdl:input wsaw:Action="urn:completeTransaction" message="axis2:completeTransactionRequest" />
+      <wsdl:output wsaw:Action="urn:completeTransactionResponse" message="axis2:completeTransactionResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CNPMerchantWebServiceSoap11Binding" type="axis2:CNPMerchantWebServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="startTransaction">
+      <soap:operation soapAction="urn:startTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="refundTransaction">
+      <soap:operation soapAction="urn:refundTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="completeTransactionEx">
+      <soap:operation soapAction="urn:completeTransactionEx" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <soap:operation soapAction="urn:getVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTransactionStatus">
+      <soap:operation soapAction="urn:getTransactionStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="completeTransaction">
+      <soap:operation soapAction="urn:completeTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CNPMerchantWebServiceSoap12Binding" type="axis2:CNPMerchantWebServicePortType">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="startTransaction">
+      <soap12:operation soapAction="urn:startTransaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="refundTransaction">
+      <soap12:operation soapAction="urn:refundTransaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="completeTransactionEx">
+      <soap12:operation soapAction="urn:completeTransactionEx" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <soap12:operation soapAction="urn:getVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTransactionStatus">
+      <soap12:operation soapAction="urn:getTransactionStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="completeTransaction">
+      <soap12:operation soapAction="urn:completeTransaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CNPMerchantWebService">
+    <wsdl:port name="CNPMerchantWebServiceHttpSoap11Endpoint" binding="axis2:CNPMerchantWebServiceSoap11Binding">
+      <soap:address location="http://test.processing.kz:8080/CNPMerchantWebServices/services/CNPMerchantWebService.CNPMerchantWebServiceHttpSoap11Endpoint/" />
+    </wsdl:port>
+    <wsdl:port name="CNPMerchantWebServiceHttpSoap12Endpoint" binding="axis2:CNPMerchantWebServiceSoap12Binding">
+      <soap12:address location="http://test.processing.kz:8080/CNPMerchantWebServices/services/CNPMerchantWebService.CNPMerchantWebServiceHttpSoap12Endpoint/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
